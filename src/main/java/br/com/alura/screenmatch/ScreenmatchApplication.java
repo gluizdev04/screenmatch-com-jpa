@@ -5,21 +5,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.OptionalInt;
-import java.util.stream.Collectors;
-
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ScreenmatchApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ScreenmatchApplication.class, args);
+    }
 
-	@Override
-	public void run(String... args) throws Exception {
+    @Override
+    public void run(String... args) throws Exception {
         Principal principal = new Principal();
-		principal.exibeMenu();
-	}
+        principal.exibeMenu();
+    }
 }
