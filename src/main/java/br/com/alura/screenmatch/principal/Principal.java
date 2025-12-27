@@ -28,6 +28,7 @@ public class Principal {
         this.serieRepository = serieRepository;
     }
 
+
     public void exibeMenu() {
         var menuRodando = true;
         while (menuRodando) {
@@ -92,12 +93,7 @@ public class Principal {
     }
 
     private void listarSeriesBuscadas(){
-
-        List<Serie> series = new ArrayList<>();
-        series = dadosSeries.stream()
-                        .map(d -> new Serie(d))
-                                .collect(Collectors.toList());
-
+        List<Serie> series = serieRepository.findAll();
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
