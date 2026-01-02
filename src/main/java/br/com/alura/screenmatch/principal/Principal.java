@@ -36,6 +36,7 @@ public class Principal {
                     2 - Buscar episódios
                     3 - Listar séries buscadas
                     4 - Buscar série por nome
+                    5 - Buscar séries por ator
                     
                     0 - Sair                                 
                     """;
@@ -51,11 +52,14 @@ public class Principal {
                 case 2:
                     buscarEpisodioPorSerie();
                     break;
-                case 3 :
+                case 3:
                     listarSeriesBuscadas();
                     break;
-                case 4 :
+                case 4:
                     buscarSeriePorTitulo();
+                    break;
+                case 5:
+                    buscarSeriesPorAtor();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -89,7 +93,7 @@ public class Principal {
 
         Optional<Serie> serie = serieRepository.findByTituloContainingIgnoreCase(nomeSerie);
 
-        if(serie.isPresent()) {
+        if (serie.isPresent()) {
             var serieEncontrada = serie.get();
             List<DadosTemporada> temporadas = new ArrayList<>();
 
@@ -114,23 +118,40 @@ public class Principal {
 
     }
 
-    private void listarSeriesBuscadas(){
+    private void listarSeriesBuscadas() {
         series = serieRepository.findAll();
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
     }
 
-    public void buscarSeriePorTitulo(){
+    private void buscarSeriePorTitulo() {
         listarSeriesBuscadas();
         System.out.print("Digite um trecho do nome da série: ");
         var nomeSerie = leitura.nextLine();
         Optional<Serie> serieEncontrada = serieRepository.findByTituloContainingIgnoreCase(nomeSerie);
 
-        if(serieEncontrada.isPresent()){
+        if (serieEncontrada.isPresent()) {
             System.out.println("Dados da série: " + serieEncontrada.get());
         } else {
             System.out.println("Série não encontrada! ");
+        }
+    }
+
+    private void buscarSeriesPorAtor() {
+        listarSeriesBuscadas();
+        System.out.print("Digite o nome do ator: ");
+        var nomeAtor = leitura.nextLine();
+        System.out.println("Avaliações a partir de que valor? ");
+        var avaliacao = leitura.nextDouble();
+
+        List<Serie> seriesAtor = serieRepository.findByAtoresContainingIgnoreCaseAndAvaliacaoGreaterThanEqual(nomeAtor, avaliacao);
+
+        if (!seriesAtor.isEmpty()) {
+            System.out.println("Séries em que " + nomeAtor + " teve participação: ");
+            seriesAtor.forEach(s -> System.out.println(s.getTitulo() + " Avaliação: " + s.getAvaliacao()));
+        } else {
+            System.out.println("Nenhuma série encontrada para o ator escolhido!");
         }
     }
 }
