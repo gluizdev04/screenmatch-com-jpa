@@ -37,6 +37,7 @@ public class Principal {
                     3 - Listar séries buscadas
                     4 - Buscar série por nome
                     5 - Buscar séries por ator
+                    6 - Top 5 Séries
                     
                     0 - Sair                                 
                     """;
@@ -60,6 +61,9 @@ public class Principal {
                     break;
                 case 5:
                     buscarSeriesPorAtor();
+                    break;
+                case 6:
+                    buscarTopCinco();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -152,6 +156,17 @@ public class Principal {
             seriesAtor.forEach(s -> System.out.println(s.getTitulo() + " Avaliação: " + s.getAvaliacao()));
         } else {
             System.out.println("Nenhuma série encontrada para o ator escolhido!");
+        }
+    }
+
+    private void buscarTopCinco() {
+        List<Serie> topCinco = serieRepository.findTop5ByOrderByAvaliacaoDesc();
+
+        if (!topCinco.isEmpty()) {
+            System.out.println("Top 5 Séries: ");
+            topCinco.forEach(s -> System.out.println(s.getTitulo() + " Avaliação: " + s.getAvaliacao()));
+        } else {
+            System.out.println("Você não possui séries para comparação");
         }
     }
 }
