@@ -195,7 +195,7 @@ public class Principal {
         var avaliacao = leitura.nextDouble();
 
         List<Serie> seriesEncontradas =
-                serieRepository.findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(temporadas, avaliacao);
+                serieRepository.seriesPorTemporadaEAvaliacao(temporadas, avaliacao);
         System.out.println("Séries encontradas para as especificações desejadas: ");
         seriesEncontradas.forEach(s -> System.out.println(s.getTitulo() + " Avaliação: " + s.getAvaliacao()));
     }
