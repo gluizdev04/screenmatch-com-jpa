@@ -37,7 +37,9 @@ public class SerieService {
     }
 
     public List<SerieDTO> obterLancamentos() {
-        return converterParaDto(serieRepository.findTop5ByDataLancamentoIsNotNullOrderByDataLancamentoDesc());
+        return converterParaDto(serieRepository.lancamentosMaisRecentes().stream()
+                .limit(5)
+                .collect(Collectors.toList()));
     }
 
 }
