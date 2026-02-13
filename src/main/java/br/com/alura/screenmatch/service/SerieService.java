@@ -3,7 +3,6 @@ package br.com.alura.screenmatch.service;
 import br.com.alura.screenmatch.dto.EpisodioDTO;
 import br.com.alura.screenmatch.dto.SerieDTO;
 import br.com.alura.screenmatch.model.Categoria;
-import br.com.alura.screenmatch.model.Episodio;
 import br.com.alura.screenmatch.model.Serie;
 import br.com.alura.screenmatch.repository.SerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class SerieService {
     @Autowired
     private SerieRepository serieRepository;
 
-    private List<SerieDTO> converterParaDto(List<Serie> series) {
+    private List<SerieDTO> converterParaSerieDto(List<Serie> series) {
         return series.stream()
                 .map(s -> new SerieDTO(s.getId(),
                         s.getTitulo(),
@@ -33,15 +32,15 @@ public class SerieService {
     }
 
     public List<SerieDTO> listarTodasSeries() {
-        return converterParaDto(serieRepository.findAll());
+        return converterParaSerieDto(serieRepository.findAll());
     }
 
     public List<SerieDTO> obterTop5() {
-        return converterParaDto(serieRepository.findTop5ByOrderByAvaliacaoDesc());
+        return converterParaSerieDto(serieRepository.findTop5ByOrderByAvaliacaoDesc());
     }
 
     public List<SerieDTO> obterLancamentos() {
-        return converterParaDto(serieRepository.lancamentosMaisRecentes().stream()
+        return converterParaSerieDto(serieRepository.lancamentosMaisRecentes().stream()
                 .limit(5)
                 .collect(Collectors.toList()));
     }
@@ -83,5 +82,10 @@ public class SerieService {
                         e.getNumeroEpisodio(),
                         e.getTitulo()))
                 .collect(Collectors.toList());
+    }
+
+    public List<SerieDTO> obterSeriesPorCategoria(String genero) {
+        Categoria categoria = Categoria.fromPortugues(genero);
+        return converterParaSerieDto(serieRepository.findByGenero(categoria));
     }
 }
