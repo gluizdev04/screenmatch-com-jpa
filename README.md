@@ -26,7 +26,7 @@ A aplicação fornece rotas HTTP para o Front-end consumir:
 
 ## Tecnologias Utilizadas
 * **Java 21**
-* **Spring Boot **
+* **Spring Boot**
 * **Spring Web** (Criação de rotas e REST Controllers)
 * **Spring Data JPA** (Hibernate)
 * **Spring Boot DevTools** (Live Reload para agilizar o desenvolvimento)
